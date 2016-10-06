@@ -4,8 +4,15 @@ author: Arthur Lui
 date: "9 September, 2016"
 geometry: margin=1in
 fontsize: 12pt
-bibliography: BIB.bib
-bibliographystyle: plain 
+
+# Uncomment if using natbib:
+
+# bibliography: BIB.bib
+# bibliographystyle: plain 
+
+# This is how you use bibtex refs: @nameOfRef
+# see: http://www.mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html)
+
 header-includes: 
     - \usepackage{bm}
     - \usepackage{bbm}
@@ -25,6 +32,3 @@ header-includes:
 > ![left is 3b, right is 3c](../img/sim.pdf){ height=100% }
 
 [//]: # (This is a comment)
-[//]: # (For more info on references: http://www.mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html)
-[//]: # (# References: include if using references)
-[//]: # (This is how you use bibtex refs: @nameOfRef)
