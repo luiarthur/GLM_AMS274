@@ -68,8 +68,8 @@ score2(t::Real) = t1(y2,t) / J(y2,t)
 
 @rput loglike2
 
-R" xx <- seq(-20,20,length=B) "
-R" ll <- sapply(xx,loglike2) "
+R" xx <- seq(-20,20,length=B) ";
+R" ll <- sapply(xx,loglike2) ";
 R"""plot(xx,ll,type='l',fg='grey',bty='n',cex.lab=1.3,
          xlab=expression(theta),ylab='likelihood',lwd=2,
          col='grey30')"""
