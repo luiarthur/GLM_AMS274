@@ -8,7 +8,7 @@ function plot(loglike,rng,B,legendPos)
   R" xx <- seq(rng[1],rng[2],length=B) "
   R" ll <- sapply(xx,loglike) "
   R"""plot(xx,ll,type='l',fg='grey',bty='n',cex.lab=1.3,
-           xlab=expression(theta),ylab='likelihood',lwd=2,
+           xlab=expression(theta),ylab='log-likelihood',lwd=2,
            col='grey30')""";
   R" mx <- xx[which.max(ll)] "
   R" abline(v=mx,col='red',lwd=2) ";
@@ -42,7 +42,7 @@ y = [ -.774, .597, 7.575, .397, -.865, -.318, -.125, .961, 1.039 ]
 # update function for for newton raphson
 update(t::Real) = t1(y,t) / t2(y,t)
 # updates for scoring method
-J(x,t) = -length(x)/8
+J(x,t) = -length(x)/2
 score(t::Real) = t1(y,t) / J(y,t)
 
 ### part c
