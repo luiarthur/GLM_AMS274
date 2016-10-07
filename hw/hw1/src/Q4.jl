@@ -38,7 +38,7 @@ println()
 
 # R
 @rput x y
-R"plot(x,y)"
+#R"plot(x,y)"
 println(R"mod <- glm(y~x, family='poisson')")
 
 end # module Q4
