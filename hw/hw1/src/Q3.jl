@@ -52,45 +52,46 @@ update2(t::Real) = t1(y2,t) / t2(y2,t)
 score2(t::Real) = t1(y2,t) / J(y2,t)
 
 ### Run ---------------------------------------------------------------
-B = 100000
+B = 1000000
+eps = 1E-4
 
 # part b --------------------------------------------------------------
 # Newton
-println("Part b | newton | inits: 0, .18, 10 | eps = 1E-3")
-println(NewtonRaphson.optim(0,   update, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(.18, update, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(10,  update, eps=1E-3, maxIts = B, printIts=true))
+println("Part b | newton | inits: 0, .18, 10 | eps = ", eps)
+println(NewtonRaphson.optim(0,   update, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(.18, update, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,  update, eps=eps, maxIts = B, printIts=true))
 println()
 
 # Scoring
-println("Part b | scoring | inits: 0, .18, 10 | eps = 1E-3")
-println(NewtonRaphson.optim(0,   score, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(.18, score, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(10,  score, eps=1E-3, maxIts = B, printIts=true))
+println("Part b | scoring | inits: 0, .18, 10 | eps = ", eps)
+println(NewtonRaphson.optim(0,   score, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(.18, score, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,  score, eps=eps, maxIts = B, printIts=true))
 println()
 
 # part c --------------------------------------------------------------
 
 # Newton 
-println("Part c | newton | inits: 0, .18, 10 | eps = 1E-3")
-println(NewtonRaphson.optim(-1,   update2, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(4.67, update2, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(10,   update2, eps=1E-3, maxIts = B, printIts=true))
+println("Part c | newton | inits: -1, 4.67, 10 | eps = ", eps)
+println(NewtonRaphson.optim(-1,   update2, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(4.67, update2, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,   update2, eps=eps, maxIts = B, printIts=true))
 println()
 
 # Scoring
-println("Part c | scoring | inits: 0, .18, 10 | eps = 1E-3")
-println(NewtonRaphson.optim(-1,   score2, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(4.67, score2, eps=1E-3, maxIts = B, printIts=true))
-println(NewtonRaphson.optim(10,   score2, eps=1E-3, maxIts = B, printIts=true))
+println("Part c | scoring | inits: -1, 4.67, 10 | eps = ", eps)
+println(NewtonRaphson.optim(-1,   score2, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(4.67, score2, eps=eps, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,   score2, eps=eps, maxIts = B, printIts=true))
 println()
 
 # plots ---------------------------------------------------------------
 
 R"pdf('../img/sim.pdf',w=13,h=7)"
 R"par(mfrow=c(1,2))"
-plot(loglike, [-5,8], B,"topright")
-plot(loglike2, [-20,20], B, "topleft")
+plot(loglike, [-5,8], 1000,"topright")
+plot(loglike2, [-20,20], 1000, "topleft")
 R"par(mfrow=c(1,1))"
 R"dev.off()"
 
