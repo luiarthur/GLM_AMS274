@@ -28,13 +28,16 @@ The algorithm stops when either
 """
 function optim(init, update; eps=1E-3, maxIts = 1000, printIts = false)
 
+  converged(t0::Real, t1) = abs(t1-t0) < eps
+  converged{T}(t0::Array{T,1}, t1) = all( abs(t1-t0) .< eps )
+
   @bounce function loop(t0,it)
     t1 = t0 - update(t0)
 
     if it == maxIts
       warn("Iteration: ",it," - Not Converged.")
       t1
-    elseif abs(t1-t0) < eps
+    elseif converged(t0,t1)
       println("Converged in ",it," iterations.")
       t1
     else

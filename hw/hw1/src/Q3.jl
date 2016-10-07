@@ -57,32 +57,32 @@ B = 100000
 # part b --------------------------------------------------------------
 # Newton
 println("Part b | newton | inits: 0, .18, 10 | eps = 1E-3")
-NewtonRaphson.optim(0,   update, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(.18, update, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(10,  update, eps=1E-3, maxIts = B, printIts=true)
+println(NewtonRaphson.optim(0,   update, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(.18, update, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,  update, eps=1E-3, maxIts = B, printIts=true))
 println()
 
 # Scoring
 println("Part b | scoring | inits: 0, .18, 10 | eps = 1E-3")
-NewtonRaphson.optim(0,   score, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(.18, score, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(10,  score, eps=1E-3, maxIts = B, printIts=true)
+println(NewtonRaphson.optim(0,   score, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(.18, score, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,  score, eps=1E-3, maxIts = B, printIts=true))
 println()
 
 # part c --------------------------------------------------------------
 
 # Newton 
 println("Part c | newton | inits: 0, .18, 10 | eps = 1E-3")
-NewtonRaphson.optim(-1,   update2, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(4.67, update2, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(10,   update2, eps=1E-3, maxIts = B, printIts=true)
+println(NewtonRaphson.optim(-1,   update2, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(4.67, update2, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,   update2, eps=1E-3, maxIts = B, printIts=true))
 println()
 
 # Scoring
 println("Part c | scoring | inits: 0, .18, 10 | eps = 1E-3")
-NewtonRaphson.optim(-1,   score2, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(4.67, score2, eps=1E-3, maxIts = B, printIts=true)
-NewtonRaphson.optim(10,   score2, eps=1E-3, maxIts = B, printIts=true)
+println(NewtonRaphson.optim(-1,   score2, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(4.67, score2, eps=1E-3, maxIts = B, printIts=true))
+println(NewtonRaphson.optim(10,   score2, eps=1E-3, maxIts = B, printIts=true))
 println()
 
 # plots ---------------------------------------------------------------
