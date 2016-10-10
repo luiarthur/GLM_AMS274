@@ -143,7 +143,7 @@ Table: Estimates from Newton-Raphson and Scoring Method \label{table3c}
 | Scoring Method | 8.546    |                 7 | 10             | $10^{-4}$ |
 
 
-# 4a
+# 4
 
 $$
 \begin{split}

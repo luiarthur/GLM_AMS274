@@ -6,6 +6,10 @@
 # -o        =>  output file name
 
 #pandoc hw1.md --toc -s --natbib -o hw1.tex
+
+# Make sure to execute the files in ../src first by:
+# julia Q3.jl
+# julia Q4.jl
 pandoc hw1.md -s --natbib -o hw1.tex
 
 pdflatex *.tex
