@@ -36,7 +36,46 @@ header-includes:
     - \newcommand{\E}{ \text{E} }
 ---
 
-# 3a
+#1
+
+Exponential Dispersion Family density:
+$$f(y|\theta,\phi) = \exp\p{\frac{y\theta - b(\theta)}{a(\phi)} + c(y,\phi)}$$
+
+Exponential Family:
+$$f(y|\theta) = c(\theta) h(y) \exp\p{\sum_{j=1}^D t_j(y)w_j(\theta)}$$
+
+## 1a
+The laplace distribution is not a member of the exponential family because the 
+
+## 1b
+
+## 1c
+
+## 1d
+
+## 1e
+
+## 1f
+
+## 1g
+
+#2
+
+## 2ai
+
+## 2aii
+
+## 2aiii
+
+## 2bi
+
+## 2bii
+
+## 2biii
+
+
+# 3
+## 3a
 
 $$
 \newcommand{\cauchyi}{\bk{\pi\bc{1+(y_i-\theta)^2}}^{-1}}
@@ -102,7 +141,7 @@ $$
 \end{split}
 $$
 
-# 3b
+## 3b
 
 Having applied both the newton-raphson method and scoring method, and
 initialized the algorithms at various starting values, I have estimated
@@ -119,7 +158,7 @@ Table: Estimates from Newton-Raphson and Scoring Method \label{table3b}
 
 > ![Log-likelihoods for parts 3b (left) and 3c (right).\label{loglikes}](../img/sim.pdf){ height=40% }
 
-# 3c
+## 3c
 
 Again, applying both the newton-raphson and scoring methods, and having
 initialized the algorithms at different starting values, $\theta$ was estimated
