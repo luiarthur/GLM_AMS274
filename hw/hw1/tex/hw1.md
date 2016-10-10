@@ -60,6 +60,11 @@ $$
 \end{array}
 $$
 
+So, in the Newton-Raphson iterations, the parameters are updated until convergence using:
+$$
+\theta^{k+1} = \theta^k - \p{\ddf{l}{\theta}}^{-1}\df{l}{\theta} \\
+$$
+
 For the Scoring method:
 $$
 \begin{split}
@@ -88,6 +93,15 @@ $$
 \end{split}
 $$
 
+So, in the scoring method, the parameters are updated until convergence using:
+$$
+\begin{split}
+\theta^{k+1} &= \theta^k + \df{l}{\theta} \bigg/ J(\theta)\\
+             &= \theta^k + \ds\suml\frac{2(y_i-\theta)}{1+(y_i-\theta)^2} \bigg/ \p{n/2}\\
+             &= \theta^k + \ds\p{\frac{4}{n}}\ds\suml\frac{y_i-\theta}{1+(y_i-\theta)^2}
+\end{split}
+$$
+
 # 3b
 
 Having applied both the newton-raphson method and scoring method, and
@@ -107,13 +121,13 @@ Table: Estimates from Newton-Raphson and Scoring Method \label{table3b}
 
 # 3c
 
-Again, applying both the newton-raphson and scoring methods, and having 
-initialized the algorithms at different starting values, $\theta$ was
-estimated to be **5.047**. Table \ref{table3c} summarizes the results
-and parameter settings for the algorithms. Note that in all cases, the scoring
-method converged much faster. But the scoring method yielded estimates
-that did not correspond to the global max in 2 cases, whereas the Newton-raphson
-method yielded estimates that were not at the global max in 1 case.
+Again, applying both the newton-raphson and scoring methods, and having
+initialized the algorithms at different starting values, $\theta$ was estimated
+to be **5.047**. Table \ref{table3c} summarizes the results and parameter
+settings for the algorithms. Note that in all cases, the scoring method
+converged much faster. But the scoring method did not converge to the global
+max in 2 cases, whereas the Newton-raphson method did not converge to the
+global max in 1 case.
 
 Table: Estimates from Newton-Raphson and Scoring Method \label{table3c}
 
@@ -129,10 +143,46 @@ Table: Estimates from Newton-Raphson and Scoring Method \label{table3c}
 | Scoring Method | 8.546    |                 7 | 10             | $10^{-4}$ |
 
 
-# 4
+# 4a
+
+$$
+\begin{split}
+f(y_i|\beta) &= \frac{\exp\p{-\exp\p{\beta_1+\beta_2 x_i}}\p{\beta_1+\beta_2 x_i}^{y_i}}{y_i!}\\
+L(\beta|y) &= \prodl\frac{\exp\p{-\exp\p{\beta_1+\beta_2 x_i}}\p{\beta_1+\beta_2 x_i}^{y_i}}{y_i!}\\
+l(\beta|y) &= \suml -\exp\p{\beta_1+\beta_2 x_i} + y_i \log{\p{\beta_1+\beta_2 x_i}} + C\\
+\end{split}
+$$
+
+$$
+\begin{split}
+\pd{l}{\beta_1} &= \suml -\exp\p{\beta_1 + \beta_2 x_i} + y_i \\
+\pd{l}{\beta_2} &= \suml \bc{-\exp\p{\beta_1 + \beta_2 x_i} + y_i} x_i \\
+\\
+\pd{^2l}{\beta_1^2} &= \suml -\exp\p{\beta_1 + \beta_2 x_i}\\
+\pd{^2l}{\beta_2^2} &= \suml \bc{-\exp\p{\beta_1 + \beta_2 x_i}} x_i^2\\
+\pd{^2l}{\beta_1\beta_2} &= \suml \bc{-\exp\p{\beta_1 + \beta_2 x_i}} x_i\\
+\end{split}
+$$
+
+$$
+J(\beta) = \begin{pmatrix}
+-l_{\beta_1\beta_1} & -l_{\beta_1\beta_2} \\
+-l_{\beta_2\beta_1} & -l_{\beta_2\beta_2} \\
+\end{pmatrix}
+$$
+
+So, in the scoring method, the parameters are updated until convergence using:
+$$
+\begin{split}
+\theta^{k+1} &= \theta^k + \p{J(\theta)}^{-1} 
+                \begin{bmatrix} l_{\beta_1} \\ l_{\beta_2} \end{bmatrix}\\
+\end{split}
+$$
+
 
 The scoring method converged in 107 iterations to the estimates (0.995998,
 1.32661). The estimates from the `glm` function in `R` were (0.996,1.327).
+The estimates agree.
 
 
 
