@@ -21,7 +21,7 @@ header-includes:
     - \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
     - \newcommand{\p}[1]{\left(#1\right)}
     - \newcommand{\bk}[1]{\left[#1\right]}
-    - \newcommand{\bc}[1]{ \{#1\} }
+    - \newcommand{\bc}[1]{ \left\{#1\right\} }
     - \newcommand{\abs}[1]{ \left|#1\right| }
     - \newcommand{\mat}{ \begin{pmatrix} }
     - \newcommand{\tam}{ \end{pmatrix} }
@@ -45,23 +45,71 @@ Exponential Family:
 $$f(y|\theta) = c(\theta) h(y) \exp\p{\sum_{j=1}^D t_j(y)w_j(\theta)}$$
 
 ## 1a
-The laplace distribution is not a member of the exponential family because the 
+The laplace distribution is not a member of the (two-parameter) exponential
+family because there is only one $t_j(y)w_j(\theta)$ term in the exponent.
+Consequently, it is not a member of the EDF either.
 
 ## 1b
+The uniform distribution is not in the exponential family as the parameters
+appear in the support of the random variable. Consequently, it not a member of 
+the EDF either.
 
 ## 1c
+The logistic distribution cannot be written in the exponential family form 
+since it is a ratio of two exponents that cannot be simplified further. 
+Therefore, it is neither in the exponential family nor the EDF.
 
 ## 1d
+The Cauchy distribution is not in the exponential family as $y$ and the
+parameters cannot be factored in the proper manner in the exponent.
 
 ## 1e
+The pareto distribution is not in the exponential family (if the $\alpha$
+parameter is not fixed) since the parameter appears in the support of 
+$y$. Therefore, it is not in the EDF either.
 
 ## 1f
+$$
+\begin{split}
+f(y|\alpha,\beta) &= \p{B(\alpha,\beta)}^{-1} y^{\alpha-1} (1-y)^{\beta-1},
+                    ~~~ y \in (0,1), \alpha,\beta > 0 \\
+                  &= \exp\bc{(\alpha-1)\log(y) + (\beta-1)\log(1-y) - \log(B(\alpha,\beta))},
+\end{split}
+$$
+which has the form of the exponential family. Therefore, the beta distribution is
+in the exponential family. But it does not have the form of the EDF, so it does
+not belong in the EDF.
 
 ## 1g
+$$
+\begin{split}
+f(y|\alpha,p) &= \frac{\Gamma(y+\alpha)}{\Gamma(\alpha)y!} p^\alpha (1-p)^y, ~~~ y\in\mathbb{N}, \alpha>0, p\in(0,1)\\
+&= \exp\bc{y\log(1-p) - (-\alpha\log(p)) + \log\p{\frac{\Gamma(y+\alpha)}{\Gamma(\alpha)y!}}}
+\end{split}
+$$
+This parameterization of the Negative-Binomial distribution is only in the
+exponential family and EDF if $\alpha$ is held fixed. Since $y$ and $\alpha$ 
+cannot be factored, this particular parameterization of the NB is neither in 
+the exponential family nor the EDF.
 
 #2
 
 ## 2ai
+$$
+\begin{split}
+f(y_i|\mu_i,\sigma) &= (2\pi\sigma^2)^{-1/2} \exp\p{-\frac{(y_i-\mu_i)^2}{2\sigma^2}} \\
+\\
+\mathcal{L}(\mu,\sigma|y) &\propto (\sigma^2)^{-n/2} \exp\p{-\suml\frac{(y_i-\mu_i)^2}{2\sigma^2}} \\
+\\
+l(\mu,\sigma|y) &= \log(\mathcal{L}) = -\frac{n}{2}\log(\sigma^2) - \suml \frac{(y_i-\mu_i)^2}{2\sigma^2}\\
+                &= -\frac{n}{2}\log(\sigma^2) - \suml \frac{(y_i-x_i^T\beta)^2}{2\sigma^2}\\
+                &= -\suml \frac{(y_i-x_i^T\beta)^2}{2\sigma^2} + C, \text{ where $C$ is a constant w.r.t to $\beta$}\\
+\end{split}
+$$
+So $l$ (and hence the likelihood) is maximized as $\ds\suml
+\frac{(y_i-x_i^T\beta)^2}{2\sigma^2}$ is minimized. That is
+the MLE for $\beta$ is obtained by minimizing $S_2(\beta)$.
+
 
 ## 2aii
 
