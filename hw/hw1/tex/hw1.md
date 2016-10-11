@@ -106,21 +106,74 @@ l(\mu,\sigma|y) &= \log(\mathcal{L}) = -\frac{n}{2}\log(\sigma^2) - \suml \frac{
                 &= -\suml \frac{(y_i-x_i^T\beta)^2}{2\sigma^2} + C, \text{ where $C$ is a constant w.r.t to $\beta$}\\
 \end{split}
 $$
-So $l$ (and hence the likelihood) is maximized as $\ds\suml
-\frac{(y_i-x_i^T\beta)^2}{2\sigma^2}$ is minimized. That is
-the MLE for $\beta$ is obtained by minimizing $S_2(\beta)$.
+So $l$ (and hence the likelihood) is maximized w.r.t. $\beta$ as $\ds\suml
+(y_i-x_i^T\beta)^2$ is minimized. That is the MLE for $\beta$ is obtained by
+minimizing $S_2(\beta)$.
 
 
 ## 2aii
+$$
+\begin{split}
+\mathcal{L}(\mu_i,\sigma|y) &\propto \sigma^{-n} \exp\p{-\suml \frac{\abs{y_i-\mu_i}}{\sigma}}
+\\
+l(\beta,\sigma|y) &= \log(\mathcal{L}) = -n\log(\sigma) - \suml\frac{\abs{y_i-x_i^T\beta}}{\sigma} + C, \text{ where $C$ is a constant w.r.t. $\beta,\sigma$} \\
+&=  -\suml\frac{\abs{y_i-x_i^T\beta}}{\sigma} + C^*, \text{ where $C^*$ is a constant w.r.t. $\beta$} \\
+\end{split}
+$$
+So $l$ (and hence the likelihood) is maximized w.r.t. $\beta$ as $\ds\suml
+\abs{y_i-x_i^T\beta}$ is minimized. That is the MLE for $\beta$ is obtained by
+minimizing $S_1(\beta)$.
+
 
 ## 2aiii
+$$
+\begin{split}
+\mathcal{L}(\mu,\sigma|y) &\propto \sigma^{-n} \prodl \mathbbm{1}\p{\mu_i-\sigma\le y_i\le\mu_i+\sigma}\\
+&= \sigma^{-n} \prodl \mathbbm{1}\p{-\sigma\le y_i-\mu_i\le+\sigma}\\
+&= \sigma^{-n} \prodl \mathbbm{1}\p{\abs{y_i-\mu_i} \le \sigma}\\
+\mathcal{L}(\beta,\sigma|y) &= \sigma^{-n} \prodl \mathbbm{1}\p{\abs{y_i-x_i^T\beta} \le \sigma}\\
+&= \sigma^{-n} \mathbbm{1}\p{\underset{i}{max}\abs{y_i-x_i^T\beta} \le \sigma}\\
+\end{split}
+$$
+
+So the likelihood is maximized w.r.t. $\beta$ as $\ds\underset{i}{max}
+\abs{y_i-x_i^T\beta}$ is minimized. That is the MLE for $\beta$ is
+obtained by minimizing $S_\infty(\beta)$.
 
 ## 2bi
+$$
+\begin{split}
+l &= -\frac{n}{2} \log(\sigma^2) - \suml\frac{(y_i - x_i^T\beta)^2}{2\sigma^2} \\
+l_{\sigma^2} &= -\frac{n}{2\sigma^2} + \frac{S_2(\beta)}{\p{2\sigma^2}^2} := 0 \\
+-n\hat{\sigma^2}_{mle} + S_2(\beta) &= 0 \\
+\hat{\sigma^2}_{mle} &= \frac{S_2(\beta)}{n} \\
+\\
+\therefore \hat{\sigma}_{mle} &= \sqrt{\frac{S_2(\beta)}{n}}
+\end{split}
+$$
+The last step can be done as MLE's are invariant to transformations.
 
 ## 2bii
+$$
+\begin{split}
+l &= -n\log(\sigma) - \suml{\frac{\abs{y_i-x_i^T\beta}}{\sigma}} \\
+  &= -n\log(\sigma) - \frac{S_1(\beta)}{\sigma} \\
+l_{\sigma} &= -\frac{n}{\sigma} + \frac{S_1(\beta)}{\sigma^2} := 0\\
+-n\hat\sigma_{mle} + S_1(\beta) &= 0 \\
+\\
+\therefore \hat\sigma_{mle} &= \frac{S_1(\beta)}{n}
+\end{split}
+$$
 
 ## 2biii
-
+$$
+\begin{split}
+\mathcal{L} &= \sigma^{-n} \mathbbm{1}\p{\underset{i}{max}\abs{y_i-x_i^T\beta} \le \sigma} \\
+            &= \sigma^{-n} \mathbbm{1}\p{S_\infty(\beta) \le \sigma}
+\\
+\therefore \hat\sigma_{mle} &= S_\infty(\beta) \\
+\end{split}
+$$
 
 # 3
 ## 3a
