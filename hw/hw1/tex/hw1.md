@@ -1,7 +1,7 @@
 ---
 title: "AMS 274 - GLM HW 1"
 author: Arthur Lui
-date: "9 September, 2016"
+date: "11 October, 2016"
 geometry: margin=1in
 fontsize: 12pt
 
