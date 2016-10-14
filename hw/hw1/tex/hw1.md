@@ -48,6 +48,7 @@ $$f(y|\theta) = c(\theta) h(y) \exp\p{\sum_{j=1}^D t_j(y)w_j(\theta)}$$
 The laplace distribution is not a member of the (two-parameter) exponential
 family because there is only one $t_j(y)w_j(\theta)$ term in the exponent.
 Consequently, it is not a member of the EDF either.
+However, if $\mu$ were known, then it would belong to the exponential family, but not the EDF.
 
 ## 1b
 The uniform distribution is not in the exponential family as the parameters
@@ -67,6 +68,7 @@ parameters cannot be factored in the proper manner in the exponent.
 The pareto distribution is not in the exponential family (if the $\alpha$
 parameter is not fixed) since the parameter appears in the support of 
 $y$. Therefore, it is not in the EDF either.
+However, in the case that the $\alpha$ parameter is known, the pareto is in the exponential family. Yet it would not be in the EDF because the $y$ does not appear in the exponent.
 
 ## 1f
 $$
@@ -77,7 +79,7 @@ f(y|\alpha,\beta) &= \p{B(\alpha,\beta)}^{-1} y^{\alpha-1} (1-y)^{\beta-1},
 \end{split}
 $$
 which has the form of the exponential family. Therefore, the beta distribution is
-in the exponential family. But it does not have the form of the EDF, so it does
+in the exponential family. But it does not have the form of the EDF since $y$ does not appear in the exponent, so it does
 not belong in the EDF.
 
 ## 1g
