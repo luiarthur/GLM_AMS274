@@ -63,7 +63,7 @@ y = map(p_i->rand(Bernoulli(p_i)),p)
 V = eye(3)
 
 # Since this is probit, and not logistic, regression. Should not get same answers.
-@time out = AlbertChib.gibbs_ac(y,X,V,B=100,burn=100,printFreq=10)
+@time out = AlbertChib.gibbs_ac(y,X,V,B=100,burn=10,printFreq=0)
 beta_post = hcat(map(o -> o.beta, out)...)'
 
 @rput beta_post y X
