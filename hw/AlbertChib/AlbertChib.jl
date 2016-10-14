@@ -10,7 +10,7 @@ immutable State
 end
 
 function gibbs_ac(y::Array{Int,1}, X::Array{Float64,2}, V::Array{Float64,2};
-                  B=1000, burn=1000)
+                  B::Int=1000, burn::Int=1000,printFreq::Int=0)
 
   const (n,k) = size(X)
   S = inv(X'X + inv(V))
@@ -44,13 +44,13 @@ function gibbs_ac(y::Array{Int,1}, X::Array{Float64,2}, V::Array{Float64,2};
   const init_z = rand(0:1,n)
   const init_beta = zeros(k)
 
-  return MCMC.gibbs(State(init_beta), update, B, burn)
+  return MCMC.gibbs(State(init_beta), update, B, burn, printFreq=printFreq)
 end
 
 end
 
 #=
-include("albertChib.jl")
+include("AlbertChib.jl")
 using Distributions, RCall
 R"library(rcommon)"
 
@@ -63,7 +63,7 @@ y = map(p_i->rand(Bernoulli(p_i)),p)
 V = eye(3)
 
 # Since this is probit, and not logistic, regression. Should not get same answers.
-@time out = AlbertChib.gibbs_ac(y,X,V,B=1000,burn=10000)
+@time out = AlbertChib.gibbs_ac(y,X,V,B=100,burn=100,printFreq=10)
 beta_post = hcat(map(o -> o.beta, out)...)'
 
 @rput beta_post y X
