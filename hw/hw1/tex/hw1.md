@@ -238,7 +238,7 @@ Table: Estimates from Newton-Raphson and Scoring Method \label{table3b}
 
 | Method         | Estimate | Steps to Converge | Initial Values | Tolerance |
 |:--------------:|:--------:| -----------------:|:--------------:|:---------:| 
-| Newton-Raphson | 0.179    |             99880 | 0              | $10^{-4}$ |
+| Newton-Raphson | 0.179    |                 3 | 0              | $10^{-4}$ |
 | Scoring Method | 0.179    |                 8 | 0              | $10^{-4}$ |
 
 > ![Log-likelihoods for parts 3b (left) and 3c (right).\label{loglikes}](../img/sim.pdf){ height=40% }
@@ -248,22 +248,23 @@ Table: Estimates from Newton-Raphson and Scoring Method \label{table3b}
 Again, applying both the newton-raphson and scoring methods, and having
 initialized the algorithms at different starting values, $\theta$ was estimated
 to be **5.047**. Table \ref{table3c} summarizes the results and parameter
-settings for the algorithms. Note that in all cases, the scoring method
-converged much faster. But the scoring method did not converge to the global
-max in 2 cases, whereas the Newton-raphson method did not converge to the
-global max in 1 case.
+settings for the algorithms. The scoring method and newton-raphson algorithms
+converged to the correct value when initialized at 4.67. When the initial
+values were far from the truth, the scoring method yielded estimates that were
+not the global max; and convergence was not reached using the newton-raphson
+method.
 
 Table: Estimates from Newton-Raphson and Scoring Method \label{table3c}
 
 | Method         | Estimate | Steps to Converge | Initial Values | Tolerance |
 |:--------------:|:--------:| -----------------:|:--------------:|:---------:| 
-| Newton-Raphson | 5.047    |             73242 | -1              | $10^{-4}$ |
-| Scoring Method | 0.362    |                 7 | -1              | $10^{-4}$ |
+| Newton-Raphson |  ---     |    no convergence | -1             | $10^{-4}$ |
+| Scoring Method | 0.362    |                 7 | -1             | $10^{-4}$ |
 | -------------- | -------- | ----------------- | -------------- | --------- | 
-| Newton-Raphson | 7.562    |             22555 | 4.67           | $10^{-4}$ |
+| Newton-Raphson | 5.047    |                 4 | 4.67           | $10^{-4}$ |
 | Scoring Method | 5.047    |                 6 | 4.67           | $10^{-4}$ |
 | -------------- | -------- | ----------------- | -------------- | --------- | 
-| Newton-Raphson | 5.047    |             46526 | 10             | $10^{-4}$ |
+| Newton-Raphson |  ---     |    no convergence | 10             | $10^{-4}$ |
 | Scoring Method | 8.546    |                 7 | 10             | $10^{-4}$ |
 
 

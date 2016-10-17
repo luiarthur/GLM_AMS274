@@ -25,7 +25,7 @@ end
 function t2(x,t)
   num = 2 * (x-t-1) .* (x-t+1)
   denom = (1 + (x-t).^2).^2
-  - sum( num ./ denom )
+  sum( num ./ denom )
 end
 
 # likelihood function:
@@ -42,14 +42,14 @@ y = [ -.774, .597, 7.575, .397, -.865, -.318, -.125, .961, 1.039 ]
 # update function for for newton raphson
 update(t::Real) = t1(y,t) / t2(y,t)
 # updates for scoring method
-J(x,t) = -length(x)/2
-score(t::Real) = t1(y,t) / J(y,t)
+J(x,t) = length(x)/2
+score(t::Real) = -t1(y,t) / J(y,t)
 
 ### part c
 y2 = [0.0, 5, 9]
 loglike2(t) = loglike_gen(y2,t)
 update2(t::Real) = t1(y2,t) / t2(y2,t)
-score2(t::Real) = t1(y2,t) / J(y2,t)
+score2(t::Real) = -t1(y2,t) / J(y2,t)
 
 ### Run ---------------------------------------------------------------
 B = 1000000
