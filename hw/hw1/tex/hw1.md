@@ -273,9 +273,9 @@ Table: Estimates from Newton-Raphson and Scoring Method \label{table3c}
 # 4
 
 \begin{align*}
-f(y_i|\beta) &= \frac{\exp\p{-\exp\p{\beta_1+\beta_2 x_i}}\p{\beta_1+\beta_2 x_i}^{y_i}}{y_i!}\\
-L(\beta|y) &= \prodl\frac{\exp\p{-\exp\p{\beta_1+\beta_2 x_i}}\p{\beta_1+\beta_2 x_i}^{y_i}}{y_i!}\\
-l(\beta|y) &= \suml -\exp\p{\beta_1+\beta_2 x_i} + y_i \log{\p{\beta_1+\beta_2 x_i}} + C\\
+f(y_i|\beta) &= \frac{\exp\p{-\exp\p{\beta_1+\beta_2 x_i}}\exp\p{\beta_1+\beta_2 x_i}^{y_i}}{y_i!}\\
+L(\beta|y) &= \prodl\frac{\exp\p{-\exp\p{\beta_1+\beta_2 x_i}}\exp\p{\beta_1+\beta_2 x_i}^{y_i}}{y_i!}\\
+l(\beta|y) &= \suml -\exp\p{\beta_1+\beta_2 x_i} + y_i \log\p{\exp\p{\beta_1+\beta_2 x_i}} + C\\
 \\
 \pd{l}{\beta_1} &= \suml -\exp\p{\beta_1 + \beta_2 x_i} + y_i \\
 \pd{l}{\beta_2} &= \suml \bc{-\exp\p{\beta_1 + \beta_2 x_i} + y_i} x_i \\
