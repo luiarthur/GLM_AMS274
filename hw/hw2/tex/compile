@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pandoc hw2.md -s -o hw1.tex
+
+pdflatex *.tex
+rm -f *.{log,aux,nav,out,snm,toc,blg,bbl}
+rm -f *.tex
