@@ -34,6 +34,7 @@ header-includes:
     - \newcommand{\pdd}[2]{ \frac{\partial^2#1}{\partial{#2}^2} }
     - \newcommand{\N}{ \mathcal{N} }
     - \newcommand{\E}{ \text{E} }
+    - \newcommand{\V}{ \text{Var} }
     - \newcommand{\Poisson}{\text{Poisson}}
 ---
 
@@ -104,3 +105,88 @@ D^* &= \frac{2}{\phi}\suml w_i\bc{y_i\p{\tilde{\theta_i}-\hat{\theta_i}} - b(\ti
 \end{align*}
 where $D = 2\ds\suml\bc{\frac{y_i}{\hat{\mu_i}} - \log(y_i\hat\mu_i) -1}$ is the deviance, and $\hat{\mu_i} = g^{-1}(x_i^T\hat\beta)$.
 
+## 3a)
+
+```
+Call:
+glm(formula = faults ~ length, family = "poisson", data = fabric)
+
+Deviance Residuals:
+     Min        1Q    Median        3Q       Max
+-2.74127  -1.13312  -0.03904   0.66179   3.07446
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)
+(Intercept) 0.9717506  0.2124693   4.574 4.79e-06 ***
+length      0.0019297  0.0003063   6.300 2.97e-10 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 103.714  on 31  degrees of freedom
+Residual deviance:  61.758  on 30  degrees of freedom
+AIC: 189.06
+
+Number of Fisher Scoring iterations: 4
+```
+
+## 3b)
+```
+Call:
+glm(formula = faults ~ length, family = "quasipoisson", data = fabric)
+
+Deviance Residuals:
+     Min        1Q    Median        3Q       Max
+-2.74127  -1.13312  -0.03904   0.66179   3.07446
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 0.9717506  0.3095033   3.140 0.003781 **
+length      0.0019297  0.0004462   4.325 0.000155 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for quasipoisson family taken to be 2.121965)
+
+    Null deviance: 103.714  on 31  degrees of freedom
+Residual deviance:  61.758  on 30  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 4
+```
+
+## 3c)
+
+#### Likelihood:
+\begin{align*}
+\hat{\eta_0} &= x_0^T\hat{\beta} \\
+\\
+\E\bk{\hat{\eta_0}} &= \E\bk{x_0^T\hat\beta}\\
+&= x_0^T\E\bk{\hat\beta}\\
+&= x_0^T\beta \\
+\\
+\V(\hat{\eta_0}) &= \V(x_0^T\hat\beta) \\
+&= \V(x_0^T\hat\beta) \\
+&= x_0^T\V(\hat\beta)x_0 \\
+&= x_0^TJ^{-1}(\beta)x_0 \\
+\\
+\end{align*}
+
+Therefore, a point estimate for $\eta_0$ is $\hat{\eta_0}$, and an interval estimate
+is $x_0^T\hat\beta \pm z_{.025} \sqrt{x_0^T J^{-1}(\hat\beta)x_0}$.
+
+## 3b)
+
+#### Quasi-Likelihood:
+\begin{align*}
+\tilde{\eta_0} &= x_0^T\tilde{\beta} \\
+\\
+\E\bk{\tilde{\eta_0}} &= x_0^T\beta \\
+\\
+\V(\hat{\eta_0}) &= \tilde{\phi} x_0^T J^{-1}(\beta)x_0 \\
+\\
+\end{align*}
+
+Therefore, a point estimate for $\eta_0$ is $\tilde{\eta_0}$, and an interval estimate
+is $x_0^T\tilde\beta \pm z_{.025} \sqrt{\tilde\phi x_0^T J^{-1}(\hat\beta)x_0}$.
