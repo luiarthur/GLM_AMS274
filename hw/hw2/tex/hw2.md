@@ -178,15 +178,31 @@ is $x_0^T\hat\beta \pm z_{.025} \sqrt{x_0^T J^{-1}(\hat\beta)x_0}$.
 
 ## 3b)
 
-#### Quasi-Likelihood:
 \begin{align*}
 \tilde{\eta_0} &= x_0^T\tilde{\beta} \\
 \\
 \E\bk{\tilde{\eta_0}} &= x_0^T\beta \\
 \\
-\V(\hat{\eta_0}) &= \tilde{\phi} x_0^T J^{-1}(\beta)x_0 \\
+\V(\hat{\eta_0}) &= \V(x_0^T\hat\beta) \\
+&= x_0^T\V(\hat\beta)x_0 \\
+&= x_0^TJ^{-1}(\beta,\tilde{\phi})x_0 \\
+&= x_0^T\p{J(\beta)/\tilde{\phi}}^{-1}x_0 \\
+&= \tilde{\phi}x_0^T J^{-1}(\beta)x_0 \\
 \\
 \end{align*}
 
 Therefore, a point estimate for $\eta_0$ is $\tilde{\eta_0}$, and an interval estimate
 is $x_0^T\tilde\beta \pm z_{.025} \sqrt{\tilde\phi x_0^T J^{-1}(\hat\beta)x_0}$.
+
+
+---------------------------------------------------------------
+ $x_0$   Model           Point Estimate      Interval Estimate
+-------  -------------- ---------------- ----------------------
+ 500     Poisson              1.936624    (1.783437, 2.089811) 
+
+ 500     Quasi-poisson        1.936624    (1.713477, 2.159771) 
+
+ 995     Poisson              2.891849    (2.662679, 3.121018) 
+
+ 995     Quasi-poisson        2.891849    (2.558018, 3.225679) 
+---------------------------------------------------------------
