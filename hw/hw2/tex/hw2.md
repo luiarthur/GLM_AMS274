@@ -176,8 +176,6 @@ Number of Fisher Scoring iterations: 4
 Therefore, a point estimate for $\eta_0$ is $\hat{\eta_0}$, and an interval estimate
 is $x_0^T\hat\beta \pm z_{.025} \sqrt{x_0^T J^{-1}(\hat\beta)x_0}$.
 
-## 3b)
-
 \begin{align*}
 \tilde{\eta_0} &= x_0^T\tilde{\beta} \\
 \\
