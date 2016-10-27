@@ -3,5 +3,6 @@
 pandoc hw2.md -s -o hw2.tex
 
 pdflatex *.tex
+pdflatex *.tex # the second time allows figures to be labelled
 rm -f *.{log,aux,nav,out,snm,toc,blg,bbl}
-#rm -f *.tex
+rm -f *.tex

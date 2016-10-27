@@ -226,9 +226,68 @@ strained (blue) and unstrained (orange) observations.
 \label{fig:dat}
 \endmyfig
 
+Figure \ref{fig:combo} shows the transformed data. The 
+`square-root` and `log` functions were applied to the
+predictor and response in different combination.
+It appears that simply transforming the response
+with a log of square-root function produces the 
+most linear response. Admittedly, there appears
+to be at least two different slopes (clusters)
+within the strained group. Perhaps a Dirichlet-process
+mixture model would do better to fit the data. 
+
 \beginmyfig
 \includegraphics[height=0.5\textwidth]{../img/combo.pdf}
 \caption{Transformed data}
 \label{fig:combo}
+\endmyfig
+
+Seven different models were fit: 
+
+\begin{align*}
+\mathcal{M}_1: y_i &= \Poisson\p{\exp\p{\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}}} \\
+\mathcal{M}_2: y_i &= \Poisson\p{\p{\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}}^2}\\
+\mathcal{M}_3: y_i &= \Poisson\p{\exp\p{\beta_0 + \beta_1 \sqrt{x_{i1}} + \beta_2 x_{i2}}} \\
+\mathcal{M}_4: y_i &= \Poisson\p{\p{\beta_0 + \beta_1 \sqrt{x_{i1}} + \beta_2 x_{i2}}^2}\\
+\mathcal{M}_5: y_i &= \Poisson\p{\exp\p{\beta_0 + \beta_1 \log(1+x_{i1}) + \beta_2 x_{i2}}} \\
+\mathcal{M}_6: y_i &= \Poisson\p{\p{\beta_0 + \beta_1 \log(1+x_{i1}) + \beta_2 x_{i2}}^2}\\
+\mathcal{M}_7: y_i &= \Poisson\p{\exp\p{\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i2}x_{i3}}} \\
+\end{align*}
+
+The last model $(\mathcal{M}_7)$ places a log link on the mean and
+adds an interaction term to account for possibly crossing of slopes.
+
+Table \ref{stats} displays the deviance, AIC, BIC, as well as the sum of
+squared Pearson-residuals and deviance-residuals. The model that performs the
+best under each criteria are printed in bold. It appears that $\mathcal{M}_1$
+and $\mathcal{M}_7$ perform the best. However, $\mathcal{M}_1$ is simpler than
+$\mathcal{M}_7$ as it doesn't have an interaction term, but performs almost as
+well (and better at times) in each criteria.
+
+-------------------------------------------------------------------------
+                     M1         M2     M3     M4     M5     M6         M7
+--------------- ----------   ------ ------ ------ ------ ------ ---------
+Deviance           86.38     144.18 108.85 164.28  97.89 107.63 **84.60**
+
+AIC             **415.95**   473.75 438.43 493.85 427.46 437.20    416.17
+
+BIC             **428.61**   486.41 451.09 506.51 440.12 449.86    433.05
+
+Pearson-resid.      1.14       2.14   1.44   2.17   1.35   1.39  **1.11**
+
+Deviance-resid.     1.23       2.06   1.56   2.35   1.40   1.54  **1.21**
+-------------------------------------------------------------------------
+
+Table: Measures of Goodness-of-fit & Model Comparison \label{stats}
+
+Figure \ref{fig:pred} shows the estimated regression functions under
+$\mathcal{M}_1$(+) and $\mathcal{M}_7$ (X). The predictions under
+the two models are similar. And appear to capture the general trend.
+But as expected, the model isn't able to capture the two different
+groups within the strained group.
+\beginmyfig
+\includegraphics[height=0.7\textwidth]{../img/pred.pdf}
+\caption{Predictions}
+\label{fig:pred}
 \endmyfig
 
