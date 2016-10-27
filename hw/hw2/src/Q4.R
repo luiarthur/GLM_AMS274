@@ -41,6 +41,7 @@ s <- lapply(m,summary)
 
 M <- matrix(0,5,7)
 rownames(M) <- c("deviance","AIC","BIC","pearson-resids","deviance-resids")
+colnames(M) <- paste0("M",1:7)
 for (i in 1:length(m)) {
   M[1,i] <- m[[i]]$deviance
   M[2,i] <- m[[i]]$aic
@@ -48,18 +49,22 @@ for (i in 1:length(m)) {
   M[4,i] <- mean(resid(m[[i]],type="pearson")^2)
   M[5,i] <- mean(resid(m[[i]],type="deviance")^2)
 }
-round(M,4)
+round(M,2)
 
-plot((dat[,2]),log(dat[,1]),col=strainCol,pch=20,cex=2)
-points(dat[,2],predict(m1),col=strainCol,pch=4,cex=2,lwd=2)
+pdf("../img/pred.pdf")
+mplot((dat[,2]),log(dat[,1]),xlab="conc",ylab="log(#Organisms)")
+points(dat[,2],predict(m1),col=strainCol,pch=3,cex=2,lwd=2)
 points(dat[,2],predict(m7),col=strainCol,pch=4,cex=2,lwd=2)
+legend("topright",legend=c("strain=1","strain=0","+ M1","x M7"),cex=2,
+       text.col=c("dodgerblue","orange","grey","grey"), text.font=2, bty='n')
+dev.off()
 
-plot((dat[,2]),sqrt(dat[,1]),col=strainCol,pch=20,cex=2)
-points(dat[,2],predict(m2),col=strainCol,pch=4,cex=2,lwd=2)
-
-plot((dat[,2]),dat[,1],col=strainCol,pch=20,cex=2)
-points(dat[,2],predict(m1,type="response"),col=strainCol,pch=4,cex=2,lwd=2)
-points(dat[,2],predict(m2,type="response"),col=strainCol,pch=4,cex=2,lwd=2)
-
-plot(residuals(m1,type="pearson")); abline(h=0)
-plot(residuals(m1,type="deviance")); abline(h=0)
+#plot((dat[,2]),sqrt(dat[,1]),col=strainCol,pch=20,cex=2)
+#points(dat[,2],predict(m2),col=strainCol,pch=4,cex=2,lwd=2)
+#
+#plot((dat[,2]),dat[,1],col=strainCol,pch=20,cex=2)
+#points(dat[,2],predict(m1,type="response"),col=strainCol,pch=4,cex=2,lwd=2)
+#points(dat[,2],predict(m2,type="response"),col=strainCol,pch=4,cex=2,lwd=2)
+#
+#plot(residuals(m1,type="pearson")); abline(h=0)
+#plot(residuals(m1,type="deviance")); abline(h=0)
