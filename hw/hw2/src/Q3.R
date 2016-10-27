@@ -1,5 +1,7 @@
 fabric <- read.table("dat/fabric.dat",skip=4,header=TRUE)
 
+plot(fabric$length, log(fabric$faults))
+
 # 3a
 pmod <- glm(faults ~ length, data=fabric, family="poisson")
 summary(pmod)
@@ -56,3 +58,7 @@ ci(ppa)
 ci(ppb)
 ci(pqa)
 ci(pqb)
+
+plot(fabric$length, log(fabric$faults), pch=20, col="grey", cex=3)
+points(fabric$length, predict(pmod),  pch=4, cex=2)
+points(fabric$length, predict(qpmod), pch=4, cex=2)
