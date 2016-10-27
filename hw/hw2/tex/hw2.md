@@ -16,7 +16,7 @@ fontsize: 12pt
 header-includes: 
     - \usepackage{bm}
     - \usepackage{bbm}
-    - \usepackage{xifthen}
+    - \usepackage{graphicx}
     - \pagestyle{empty}
     - \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
     - \newcommand{\p}[1]{\left(#1\right)}
@@ -35,10 +35,15 @@ header-includes:
     - \newcommand{\N}{ \mathcal{N} }
     - \newcommand{\E}{ \text{E} }
     - \newcommand{\V}{ \text{Var} }
+    - \def\given{~\bigg|~}
+    # Figures in correct place
+    - \usepackage{float}
+    - \def\beginmyfig{\begin{figure}[H]\center}
+    - \def\endmyfig{\end{figure}}
+    # 
     - \newcommand{\Poisson}{\text{Poisson}}
+    - \allowdisplaybreaks
 ---
-
-\allowdisplaybreaks
 
 ## 1a)
 
@@ -204,3 +209,26 @@ is $x_0^T\tilde\beta \pm z_{.025} \sqrt{\tilde\phi x_0^T J^{-1}(\hat\beta)x_0}$.
 
  995     Quasi-poisson        2.891849    (2.558018, 3.225679) 
 ---------------------------------------------------------------
+
+## 4)
+
+### Graphical Exploratory Analysis of Data
+
+Figure \ref{fig:dat} plots the data (untransformed) with 
+the response (number of organisms) on the y-axis, and 
+the covariate (jet fuel concentration) on the x-axis.
+The observations are color-coded to distinguish between
+strained (blue) and unstrained (orange) observations.
+
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/dat.pdf}
+\caption{Untransformed data}
+\label{fig:dat}
+\endmyfig
+
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/combo.pdf}
+\caption{Transformed data}
+\label{fig:combo}
+\endmyfig
+
