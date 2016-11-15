@@ -1,5 +1,6 @@
 library(rcommon)
 
+#1a
 # Read Data
 beetles <- read.csv("dat/beetles.dat",skip=1)
 beetles$prob <- beetles$numDied/beetles$numBeetles
@@ -42,3 +43,7 @@ abline(0,1,col='grey')
 points(beetles$logDose,beetles$prob,pch=20,col='grey30',cex=2)
 legend("bottomright",legend=c("Data",link),cex=2,text.col=c("grey30",2:4),
        bty='n')
+
+#1c
+
+#1d
