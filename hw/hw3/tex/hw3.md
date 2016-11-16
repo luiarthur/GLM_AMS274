@@ -50,6 +50,34 @@ header-includes:
     #- \renewcommand{\arraystretch}{1.1}
 ---
 
+# Q2 
+
+## Effect of Different Priors on $\beta$
+
+
+
+\begin{center}\begin{tabular}{crrrrc}
+\hline\hline
+& mean & sd & CI 2.5\% & CI 97.5\% \\
+$\beta_{0}$&  -40.0440&    3.4493&  -46.4511&  -33.1217&  *\\
+$\beta_{1}$&   22.3026&    1.9120&   18.5207&   25.9185&  *\\
+Acceptance $\beta$&    0.2800\\
+\hline\hline
+\end{tabular}\end{center}
+
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/curve.pdf}
+\caption{Posterior predictive probability of death under different models with 
+         95\% credible intervals (shaded).}
+\label{fig:curve}
+\endmyfig
+
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/ld.pdf}
+\caption{Posterior Lethal Doses (50\%) under different models with 95\% 
+         credible intervals (shaded).}
+\label{fig:ld}
+\endmyfig
 
 
 [//]: # (Footnotes:)

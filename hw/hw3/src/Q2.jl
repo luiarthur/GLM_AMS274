@@ -4,6 +4,8 @@ R"library(rcommon)"
 plotpost = R"plotPosts"
 plot= R"plot"
 points= R"points"
+lines= R"lines"
+density= R"lines"
 add_errbar = R"add.errbar"
 color_btwn = R"color.btwn"
 rgb = R"rgb"
@@ -30,9 +32,11 @@ function loglike1(y::Vector{Float64},Xb::Vector{Float64},θ::Hyper)
   sum([ logpdf(Binomial(m[i],mu[i]),y[i]) for i in 1:N ])
 end
 @time model1 = glm(y, X, Σᵦ*.3, loglike1, B=2000,burn=10000);
-summary(model1)
+println(summary(model1))
 β1 = hcat(map(m -> m.β, model1.post_params)...)'
 plotpost(β1,cnames=["Intercept","slope"]);
+
+
 
 # Model II: logit link
 function loglike2(y::Vector{Float64},Xb::Vector{Float64},θ::Hyper)
@@ -74,33 +78,85 @@ function predict_p(x0::Vector{Float64}, β::Matrix{Float64}, α::Vector{Float64}
   return hcat([exp(α[b]*x0b[:,b]) ./ (1+exp(x0b[:,b])).^α[b] for b in 1:B]...)
 end
 
-# MATCH COLORS!!! FIXME
+R"pdf('../img/curve.pdf')"
+# Cloglog
 p1 = predict_p(x0,β1,invcloglog)
 p1_ci = mapslices(p -> quantile(p,[.025,.975]), p1, 2)
-plot(x0,mean(p1,2),xlab="",ylab="",fg="grey",bty="n",col=2,typ="l",lwd=3)
-#plot(x0,mean(p1,2),xlab="",ylab="",fg="grey",bty="n",col=2,typ="n",lwd=3)
-color_btwn(x0,p1_ci[:,1],p1_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(1,0,0,.4))
+plot(x0,mean(p1,2),xlab="",ylab="",fg="grey",bty="n",col=2,typ="l",lwd=3,
+     main="Dose-response Curves")
+color_btwn(x0,p1_ci[:,1],p1_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(1,0,0,.2))
 
+# Logit
 p2 = predict_p(x0,β2,invlogit)
 p2_ci = mapslices(p -> quantile(p,[.025,.975]), p2, 2)
 points(x0,mean(p2,2),xlab="",ylab="",fg="grey",bty="n",col=3,typ="l",lwd=3)
-color_btwn(x0,p2_ci[:,1],p2_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(0,1,0,.3))
+color_btwn(x0,p2_ci[:,1],p2_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(0,1,0,.2))
 
+# Modified Logit
 p3 = predict_p(x0,β3,α)
 p3_ci = mapslices(p -> quantile(p,[.025,.975]), p3, 2)
 points(x0,mean(p3,2),xlab="",ylab="",fg="grey",bty="n",col=4,typ="l",lwd=3)
-color_btwn(x0,p3_ci[:,1],p3_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(0,0,1,.3))
+color_btwn(x0,p3_ci[:,1],p3_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(0,0,1,.2))
 
-#R"""
-#points(beetles$logDose,beetles$prob,pch=20,col='grey30',cex=2)
-#legend("bottomright",legend=c("Data","","",""),cex=2,text.col=c("grey30",2:4), bty='n')
-#"""
+R"""
+points(beetles$logDose,beetles$prob,pch=20,col='grey30',cex=2)
+legend("topleft",legend=c("Data","cloglog","logit","modified-logit"),cex=2,text.col=c("grey30",2:4), bty='n')
+""";
+R"dev.off()";
 
 
 
 # Lethal Dose ##################################
-#function ld(q::Float64,x0::Vector{Float64},β::Matrix{Float64},F_inv)
-#  assert(length(x0) == size(β,2))
-#  const X0b = β*x0
-#  F_inv(q)
-#end
+function cloglog(p::Float64)
+  assert(0<p<1)
+  return log(-log(1-p))
+end
+function logit(p::Float64)
+  assert(0<p<1)
+  return log(p/(1-p))
+end
+function logit(p::Float64,a::Vector{Float64})
+  assert(0<p<1)
+  return log(p.^(1./α) ./ (1-p.^(1./α)))
+end
+
+ld(q::Float64,β::Matrix{Float64},link) = (link(q) - β[:,1]) ./ β[:,2]
+function ld(q::Float64,β::Matrix{Float64},link,θ)
+  return (link(q,θ) - β[:,1]) ./ β[:,2]
+end
+
+ld_50_1 = ld(.5, β1, cloglog)  # red
+ld_50_2 = ld(.5, β2, logit)    # green
+ld_50_3 = ld(.5, β3, logit, α) # blue
+
+R"""
+pdf("../img/ld.pdf")
+color.den(density($ld_50_1),lwd=3,
+          from=quantile($ld_50_1,.025),to=quantile($ld_50_1,.975),
+          col.area=rgb(1,0,0,.3),col.den='red',
+          col.main="grey30", fg='grey',bty='n',
+          main='Lethal Dose (50%)',
+          xlim=range(c($ld_50_1,$ld_50_2,$ld_50_3)))
+color.den(density($ld_50_2),lwd=3,
+          from=quantile($ld_50_2,.025),to=quantile($ld_50_2,.975),
+          add=TRUE,col.area=rgb(0,1,0,.3),col.den='green')
+color.den(density($ld_50_3),lwd=3,
+          from=quantile($ld_50_3,.025),to=quantile($ld_50_3,.975),
+          add=TRUE,col.area=rgb(0,0,1,.3),col.den='blue')
+legend("topleft",legend=c("cloglog","logit","modified-logit"),
+       cex=1.5,text.col=2:4, bty='n')
+       dev.off()
+""";
+
+# Model I other independent normal priors
+β_logprior1(β::Vector{Float64}) = (-(β-100)' * (β-100)/2)[1]
+β_logprior2(β::Vector{Float64}) = (-(β-100)' * (β-100)/(2*100))[1]
+β_logprior3(β::Vector{Float64}) = (-(β-100)' * (β-100)/(2*100000))[1]
+@time model1_1 = glm(y,X,Σᵦ*.3,loglike1,β_logprior=β_logprior1, B=2000,burn=10000);
+@time model1_2 = glm(y,X,Σᵦ*.3,loglike1,β_logprior=β_logprior2, B=2000,burn=10000);
+@time model1_3 = glm(y,X,Σᵦ*.3,loglike1,β_logprior=β_logprior3, B=2000,burn=10000);
+println(summary(model1_1))
+println(summary(model1_2))
+println(summary(model1_3))
+
+BayesLM.latex(summary(model1))
