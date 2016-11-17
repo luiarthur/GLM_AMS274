@@ -50,7 +50,47 @@ header-includes:
     - \allowdisplaybreaks
     - \def\prodj{\prod_{j=1}^{m_i}}
     - \renewcommand{\arraystretch}{1.1}
+    - \def\mess{\frac{\exp(\eta_i)}{1+\exp(\eta_i)}}
 ---
+
+# Q1
+
+### 1a Residual Analysis
+
+The following table summarizes the root-mean-squared (RMS) deviance residuals for each model.
+
+--------------------------------------
+ Link          RMS deviance residuals
+------------- ------------------------
+logit           1.1849172
+
+probit          1.1247087
+
+cloglog         0.6563573
+--------------------------------------
+
+\begin{figure*}[h]
+  \begin{minipage}{.45\linewidth}
+    \centering \includegraphics[height=1\textwidth]{../img/freqpreds.pdf}
+    \caption{Predicted responses (probabilities) vs. observed probabilities of death.}
+    \label{fig:freqpreds}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\linewidth}
+    \centering \includegraphics[height=1\textwidth]{../img/freqcurves.pdf}
+    \caption{Dose-response (probability) curves for each model.}
+    \label{fig:freqcurves}
+  \end{minipage}
+\end{figure*}
+
+## 1b 
+The likelihood for the model under the link function in (1.1). 
+$$
+\L(\beta,\alpha;x,y) \propto \ds\prodl\bc\mess^{\alpha y_i}\bc{1-\p{\mess}^\alpha}^{m_i-y_i}
+$$
+$\alpha$ appears to be some tempering parameter. Large $\alpha$ values (much greater than 1)
+will cause the $\pi_i$'s to approach zero; while $\alpha$ values between
+0 and 1 will increase the value of each $\pi_i$. It seems that there will the
+likelihood will very possibly be more multi-modal under this likelihood.
 
 # Q2 
 
