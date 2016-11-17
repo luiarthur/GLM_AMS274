@@ -209,6 +209,19 @@ superior.
 \label{fig:curve}
 \endmyfig
 
+Figure \ref{fig:ld} show the posterior distribution
+of the lethal dose, LD$_{50}$, for each of the models. It seems that the
+distributions are similar for the models using the cloglog and modified logit
+links. Figure \ref{fig:resid} shows the posterior root-mean-squared residuals
+under the different models. Note that the posterior probability that the root
+mean squared residuals under Model I (cloglog) is smaller than that of Model II
+(logit) is 95.6\%. Likewise, the probability that the root mean squared
+residuals under Model III (modified-logit) is smaller than that of Model II
+(logit) is 96\%. This indicates that Model II has a relatively poor fit
+compared to the other two models (in terms of root mean squared residuals).
+Note also that the probability that the root mean residuals under Model III is
+smaller than that of Model I is 66.8\%.
+
 \beginmyfig
 \includegraphics[height=0.5\textwidth]{../img/ld.pdf}
 \caption{Posterior Lethal Doses (50\%) under different models with 95\% credible intervals (shaded).}
@@ -217,7 +230,7 @@ superior.
 
 \beginmyfig
 \includegraphics[height=0.5\textwidth]{../img/resid.pdf}
-\caption{Posterior root mean squared residuals under the different models (smaller is better). Note that the posterior probability that the root mean squared residuals under Model I (cloglog) is smaller than that of Model II (logit) is 95.6\%. Likewise, the probability that the root mean squared residuals under Model III (modified-logit) is smaller than that of Model II (logit) is 96\%. This indicates that Model II has a relatively poor fit compared to the other two models (in terms of root mean squared residuals). Note also that the probability that the root mean residuals under Model III is smaller than that of Model I is 66.8\%.}
+\caption{Posterior root mean squared residuals under the different models (smaller is better). }
 \label{fig:resid}
 \endmyfig
 
