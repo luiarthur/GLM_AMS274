@@ -55,7 +55,7 @@ header-includes:
 
 # Q1
 
-### 1a Residual Analysis
+### 1a) Residual Analysis
 
 The following table summarizes the root-mean-squared (RMS) deviance residuals for each model.
 
@@ -68,6 +68,14 @@ probit          1.1247087
 
 cloglog         0.6563573
 --------------------------------------
+
+Below are the predicted vs observed responses (Figure \ref{fig:freqpreds})
+and the dose-response curves (Figure \ref{fig:freqcurves}). Based on the deviance
+residuals. I would conclude that the using cloglog link produces the best-fitting
+Binomial model. This can also be seen in the fitted vs observed responses plot, 
+where the cloglog points (crosses) are closer to the solid line (the line with
+slope=1, intercept=0). From the dose-response curve, we also see that the cloglog
+curve (blue) matches the data best.
 
 \begin{figure*}[h]
   \begin{minipage}{.45\linewidth}
@@ -83,14 +91,46 @@ cloglog         0.6563573
 \end{figure*}
 
 ## 1b 
-The likelihood for the model under the link function in (1.1). 
+The likelihood for the model under the link function in (1.1) is
 $$
-\L(\beta,\alpha;x,y) \propto \ds\prodl\bc\mess^{\alpha y_i}\bc{1-\p{\mess}^\alpha}^{m_i-y_i}
+\L(\beta,\alpha;x,y) = \ds\prodl {m_i\choose y_i} \bc\mess^{\alpha y_i}\bc{1-\p{\mess}^\alpha}^{m_i-y_i}
 $$
 $\alpha$ appears to be some tempering parameter. Large $\alpha$ values (much greater than 1)
 will cause the $\pi_i$'s to approach zero; while $\alpha$ values between
-0 and 1 will increase the value of each $\pi_i$. It seems that there will the
-likelihood will very possibly be more multi-modal under this likelihood.
+0 and 1 will increase the value of each $\pi_i$. The logit link
+function is a special case of this link function. However, used in Binomial
+regression, this link function (1.1) is no longer the canonical link function.
+Fisher's scoring method cannot be used to estimate the model parameters.
+Newton-Raphson method may be used to estimate the parameters, but convergence 
+will be slower.
+
+## 1c) 
+
+The deviance residuals for the model fit with the modified logit link is shown 
+in Figure \ref{fig:devresid}. They appear symmetric as half of the points are
+above zero. Also, the dose-response curve under this link function is
+plotted in pink in Figure \ref{fig:freqcurves} above. It closely mimics the
+cloglog model's curve.
+
+\beginmyfig
+\includegraphics[height=0.3\textwidth]{../img/resid2.pdf}
+\caption{deiance residuals for model with modified logit link}
+\label{fig:devresid}
+\endmyfig
+
+## 1d) AIC / BIC
+
+The table below shows the AIC / BIC for the models under the different
+link functions. The cloglog link performs the best, with the modified-logit
+link being the second best. (smaller AIC/BIC is preferred)
+
+-------------------------------------------------
+ link    logit   probit  cloglog   modified-logit
+------ -------- -------- -------- ----------------
+ AIC   41.43027 40.31780 33.64448 35.54660
+ 
+ BIC   41.58915 40.47668 33.80336 35.78492
+-------------------------------------------------
 
 # Q2 
 
