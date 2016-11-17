@@ -13,7 +13,7 @@ rgb = R"rgb"
 srand(1);
 
 R"""
-beetles <- read.csv("dat/beetles.dat",skip=1)
+beetles <- read.csv("dat/beetles.dat",skip=1) 
 beetles$prob <- beetles$numDied/beetles$numBeetles
 """
 @rget beetles;
@@ -34,7 +34,9 @@ end
 @time model1 = glm(y, X, Σᵦ*.3, loglike1, B=2000,burn=10000);
 println(summary(model1))
 β1 = hcat(map(m -> m.β, model1.post_params)...)'
+R"pdf('../img/model1post.pdf')"
 plotpost(β1,cnames=["Intercept","slope"]);
+R"dev.off()"
 
 
 
@@ -46,7 +48,9 @@ end
 @time model2 = glm(y, X, Σᵦ*.5, loglike2, B=2000,burn=10000);
 summary(model2)
 β2 = hcat(map(m -> m.β, model2.post_params)...)'
+R"pdf('../img/model2post.pdf')"
 plotpost(β2,cnames=["Intercept","slope"]);
+R"dev.off()"
 
 # Model III: modified logit link
 lp_θ(θ::Hyper) = log(θ[:α])*(2-1) - θ[:α]*.01 # Gamma log prior, a=2,b=.01
@@ -63,8 +67,13 @@ end
 summary(model3)
 β3 = hcat(map(m -> m.β, model3.post_params)...)'
 α = map(m->m.θ[:α], model3.post_params)
+R"pdf('../img/model3post.pdf')"
 plotpost(β3,cnames=["Intercept","slope"]);
+R"dev.off()"
+
+R"pdf('../img/alpha.pdf')"
 plotpost(α);
+R"dev.off()"
 
 # Plot ##################
 x0 = collect(linspace(1.65,1.9,1000))
@@ -82,20 +91,20 @@ R"pdf('../img/curve.pdf')"
 # Cloglog
 p1 = predict_p(x0,β1,invcloglog)
 p1_ci = mapslices(p -> quantile(p,[.025,.975]), p1, 2)
-plot(x0,mean(p1,2),xlab="",ylab="",fg="grey",bty="n",col=2,typ="l",lwd=3,
+plot(x0,mean(p1,2),xlab="",ylab="",fg="grey",bty="n",col=2,typ="l",lwd=4,
      main="Dose-response Curves")
 color_btwn(x0,p1_ci[:,1],p1_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(1,0,0,.2))
 
 # Logit
 p2 = predict_p(x0,β2,invlogit)
 p2_ci = mapslices(p -> quantile(p,[.025,.975]), p2, 2)
-points(x0,mean(p2,2),xlab="",ylab="",fg="grey",bty="n",col=3,typ="l",lwd=3)
+lines(x0,mean(p2,2),xlab="",ylab="",fg="grey",bty="n",col="darkgreen",lwd=4)
 color_btwn(x0,p2_ci[:,1],p2_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(0,1,0,.2))
 
 # Modified Logit
 p3 = predict_p(x0,β3,α)
 p3_ci = mapslices(p -> quantile(p,[.025,.975]), p3, 2)
-points(x0,mean(p3,2),xlab="",ylab="",fg="grey",bty="n",col=4,typ="l",lwd=3)
+lines(x0,mean(p3,2),xlab="",ylab="",fg="grey",bty="n",col=4,lwd=4)
 color_btwn(x0,p3_ci[:,1],p3_ci[:,2],from=minimum(x0),to=maximum(x0),rgb(0,0,1,.2))
 
 R"""
@@ -152,11 +161,53 @@ legend("topleft",legend=c("cloglog","logit","modified-logit"),
 β_logprior1(β::Vector{Float64}) = (-(β-100)' * (β-100)/2)[1]
 β_logprior2(β::Vector{Float64}) = (-(β-100)' * (β-100)/(2*100))[1]
 β_logprior3(β::Vector{Float64}) = (-(β-100)' * (β-100)/(2*100000))[1]
-@time model1_1 = glm(y,X,Σᵦ*.3,loglike1,β_logprior=β_logprior1, B=2000,burn=10000);
+@time model1_1 = glm(y,X,Σᵦ*.05,loglike1,β_logprior=β_logprior1, B=2000,burn=10000);
 @time model1_2 = glm(y,X,Σᵦ*.3,loglike1,β_logprior=β_logprior2, B=2000,burn=10000);
 @time model1_3 = glm(y,X,Σᵦ*.3,loglike1,β_logprior=β_logprior3, B=2000,burn=10000);
-println(summary(model1_1))
-println(summary(model1_2))
-println(summary(model1_3))
 
 BayesLM.latex(summary(model1))
+BayesLM.latex(summary(model1_1))
+BayesLM.latex(summary(model1_2))
+
+BayesLM.latex(summary(model2))
+BayesLM.latex(summary(model3))
+
+const pp = y ./ m
+pred_1 =  predict_p(X[:,2], β1, invcloglog)
+pred_2 =  predict_p(X[:,2], β2, invlogit)
+pred_3 =  predict_p(X[:,2], β3, α)
+r1 = pp .- pred_1
+r2 = pp .- pred_2
+r3 = pp .- pred_3
+
+sse_1 = vec(mapslices(x -> sqrt(mean(x.^2)), r1, 1)) 
+sse_2 = vec(mapslices(x -> sqrt(mean(x.^2)), r2, 1)) 
+sse_3 = vec(mapslices(x -> sqrt(mean(x.^2)), r3, 1)) 
+
+
+R"""
+post.lines <- function(v,...) {
+  qt <- quantile(v,c(.025,.975))
+  color.den(density(v),from=qt[1],to=qt[2],...)
+}
+"""
+
+R"pdf('../img/resid.pdf')"
+R"post.lines($sse_1,col.area=rgb(1,0,0,.4),lwd=3,col.den='red',xlim=c(.02,.1),fg='grey',bty='n',main='RMSE')"
+R"post.lines($sse_2,col.area=rgb(0,1,0,.4),lwd=3,col.den='green',add=TRUE)"
+R"post.lines($sse_3,col.area=rgb(0,0,1,.4),lwd=3,col.den='blue',add=TRUE)"
+R"legend('topright',legend=c('cloglog','logit','modified-logit'), cex=1.5,text.col=2:4, bty='n')"
+R"dev.off()"
+
+mean(sse_1 - sse_2 .< 0)
+mean(sse_3 - sse_2 .< 0)
+mean(sse_3 - sse_1 .< 0)
+
+# Quad Loss
+function loss(truth::Vector{Float64}, postpred::Matrix{Float64}, K::Int=10000000)
+  return sum(var(postpred,2) + K/(K+1) * (truth - mean(postpred,2)).^2)
+end
+
+loss(pp, pred_1, 1000) # cloglog
+loss(pp, pred_2, 1000) # logit 
+loss(pp, pred_3, 1000) # modified logit
