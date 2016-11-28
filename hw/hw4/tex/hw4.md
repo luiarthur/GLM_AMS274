@@ -104,6 +104,41 @@ Table: MLE for Continuous-Ratio Logits model \label{tab:hi}
 
 \newpage
 
+# 1c)
+The prior distributions used for the covariates ($\alpha_j,\beta_j$) was chosen
+to be $\N_2(\bm 0_2,100\bm I_2)$ for $j=1,2$. To reflect prior uncertainty 
+in the parameters. To simulate from the joint posterior, a metropolis within
+Gibbs sampler was implemented. As shown in 1a), the continuation-ratio logits
+model can be decomposed into into independent binomial models. So, two
+separate MCMC's (with Binomial likelihoods and logit links) were implemented to
+obtain the posterior distributions of $(\alpha_1,\beta_1)$ and
+$(\alpha_2,\beta_2)$.
+
+The following table summarizes the posterior distribution for
+$(\alpha_1,\alpha_2,\beta_1,\beta_2)$:
+
+\begin{center}\begin{tabular}{crrrrc}
+\\
+& Mean & SD & CI 2.5\% & CI 97.5\% \\
+$\alpha_{1}$&   -3.2554&    0.1504&   -3.5515&   -2.9696&  *\\
+$\alpha_{2}$&   -5.7636&    0.3437&   -6.5308&   -5.1614&  *\\
+$\beta_{1}$&    0.0064&    0.0004&    0.0055&    0.0073&  *\\
+$\beta_{2}$&    0.0176&    0.0013&    0.0155&    0.0206&  *\\
+\hline\\
+Acceptance $(\alpha_1,\beta_1)$&    0.3055\\
+Acceptance $(\alpha_2,\beta_2)$&    0.2985\\
+\\
+\end{tabular}\end{center}
+
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/bayesPred.pdf}
+\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three groups (dead, malformed, normal).}
+\label{fig:bayesPred}
+\endmyfig
+
+\newpage
+
+# 2a)
 
 
 [//]: # (Footnotes:)
