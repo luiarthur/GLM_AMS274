@@ -53,7 +53,58 @@ header-includes:
     - \def\mess{\frac{\exp(\eta_i)}{1+\exp(\eta_i)}}
 ---
 
-hi
+# 1a)
+
+Let $\rho_j = \ds\frac{\pi_j}{\pi_j +...+ \pi_J}$. Also, let $f(y|m,\rho)$ be the probability mass function for the binomial distribution. Finally, let $\bm y_i = (y_{i1},y_{i2},y_{i3})$ Then, 
+
+\begin{align*}
+f(y_{i1}|m,\rho_1) \times f(y_{i2}|m-y_{i1},\rho_2) =&
+\frac{m!}{y_{i1}!(m-y_{i1})!} ~ \rho_1^{y_{i1}} (1-\rho_1)^{m-y_{i1}}  \times \\
+&\frac{(m-y_{i1})!}{y_{i2}!(m-y_{i1}-y_{i2})!} ~ \rho_2^{y_{i2}} (1-\rho_2)^{m-y_{i1}-y_{i2}} \\
+\\
+=&\frac{m!}{y_{i1}!y_{i2}!y_{i3}!}\pi_1^{y_{i1}}(1-\pi_1)^{m-y_{i1}} \times
+\p{\frac{\pi_2}{\pi_2+\pi_3}}^{y_{i2}}\p{\frac{\pi_3}{\pi_2+\pi_3}}^{m-y_{i1}-y_{i2}}\\
+=&\frac{m!}{y_{i1}!y_{i2}!y_{i3}!}\pi_1^{y_{i1}}(\pi_2+\pi_3)^{m-y_{i1}} \times
+\p{\frac{\pi_2}{\pi_2+\pi_3}}^{y_{i2}}\p{\frac{\pi_3}{\pi_2+\pi_3}}^{m-y_{i1}-y_{i2}} \\
+=&\frac{m!}{y_{i1}!y_{i2}!y_{i3}!}\pi_1^{y_{i1}}\pi_2^{y_{i2}}\pi_3^{y_{i3}}(\pi_2+\pi_3)^{m-y_{i1}-y_{i2}-m+y_{i1}+y_{i2}}\\
+=&\frac{m!}{y_{i1}!y_{i2}!y_{i3}!}\pi_1^{y_{i1}}\pi_2^{y_{i2}}\pi_3^{y_{i3}}\\
+\end{align*}
+
+which is the p.m.f for the multinomial distribution. Therefore, the
+continuous-ratio logits model model can be fit by fitting independent 
+binomial GLMs.
+
+\newpage
+
+# 1b)
+Table \ref{tab:hi} shows the MLE and corresponding standard error for
+the parameters in the continuous-ratio logits model. 
+
+----------------------------------------
+ Parameter         Estimate         SE
+-----------       ---------  --------- -
+$\alpha_1$         -3.2480      0.1577
+
+$\alpha_2$         -5.7019      0.3322
+
+$\beta_1$           0.0063      0.0004
+
+$\beta_2$           0.0174      0.0012
+----------------------------------------
+
+Table: MLE for Continuous-Ratio Logits model \label{tab:hi}
+
+**discuss results!!!** in Figure \ref{fig:freqPred}
+
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/freqPred.pdf}
+\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three groups (dead, malformed, normal).}
+\label{fig:freqPred}
+\endmyfig
+
+\newpage
+
+
 
 [//]: # (Footnotes:)
 
