@@ -92,7 +92,10 @@ $\beta_2$           0.0174      0.0012
 
 Table: MLE for Continuous-Ratio Logits model \label{tab:hi}
 
-**discuss results!!!** in Figure \ref{fig:freqPred}
+Figure \ref{fig:freqPred} shows the estimated response curves $\hat\pi_j(x)$, for
+$j=1,2,3$. It appears that as the concentration of diethylene glycol dimethyl
+ether increases, the proportion of normal mice decreases. Similarly, 
+the proportion of malformed and dead mice increased with concentration.
 
 \beginmyfig
 \includegraphics[height=0.5\textwidth]{../img/freqPred.pdf}
@@ -137,14 +140,18 @@ Acceptance $(\alpha_2,\beta_2)$&    0.2985\\
 \newpage
 
 # 2)
+
+The priors chosen for $\alpha_j,\beta_j$ were flat priors. This is to reflect
+the prior uncertainty of the value of the parameters.
+
 \beginmyfig
 \includegraphics[height=0.5\textwidth]{../img/gator1.pdf}
-\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three food choices (invertebrate, other, fish).}
+\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three food choices (invertebrate, other, fish) across both males and females.}
 \label{fig:gator1}
 \endmyfig
 \beginmyfig
 \includegraphics[height=0.5\textwidth]{../img/gator2.pdf}
-\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three food (invertebrate, other, fish).}
+\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three food (invertebrate, other, fish). Dose-response curve for Males on Left; Females on Right.}
 \label{fig:gator2}
 \endmyfig
 
