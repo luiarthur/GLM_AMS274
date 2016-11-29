@@ -1,5 +1,4 @@
-using RCall, Distributions
-include("BCLogit/BCLogit.jl")
+using RCall, BayesLM
 
 R"""
 source('loadRcommon.R')
@@ -16,7 +15,7 @@ const J = length(unique(choice))
 const Y = [ choice[i] == j ? 1:0 for i in 1:N, j in 1:J]
 
 
-@time bc1 = BCLogit.fit(Y, [ones(N) gator[:length]], [30.,30.], printFreq=100, B=2000, burn=10000)
+@time bc1 = bclogit(Y, [ones(N) gator[:length]], [30.,30.], printFreq=100, B=2000, burn=10000)
 b11 = hcat(map(b -> b[:,1], bc1)...)'
 b21 = hcat(map(b -> b[:,2], bc1)...)'
 acc11 = size(unique(b11,1),1) / size(b11,1)
@@ -37,7 +36,7 @@ plot2(x0,list($b11,$b21))
 """;
 R"dev.off()"
 
-@time bc2 = BCLogit.fit(Y, [ones(N) sex gator[:length]], [20.,20.], printFreq=100, B=2000, burn=10000)
+@time bc2 = bclogit(Y, [ones(N) sex gator[:length]], [20.,20.], printFreq=100, B=2000, burn=10000)
 b12 = hcat(map(b -> b[:,1], bc2)...)'
 b22 = hcat(map(b -> b[:,2], bc2)...)'
 acc12 = size(unique(b12,1),1) / size(b12,1)
