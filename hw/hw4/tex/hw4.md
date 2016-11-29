@@ -47,10 +47,8 @@ header-includes:
     - \newcommand{\iid}{\overset{iid}{\sim}}
     - \newcommand{\ind}{\overset{ind}{\sim}}
     # 
-    - \allowdisplaybreaks
-    - \def\prodj{\prod_{j=1}^{m_i}}
     - \renewcommand{\arraystretch}{1.1}
-    - \def\mess{\frac{\exp(\eta_i)}{1+\exp(\eta_i)}}
+    - \def\gii{g^{-1}(x_i'\hat\beta)}
 ---
 
 # 1a)
@@ -138,8 +136,65 @@ Acceptance $(\alpha_2,\beta_2)$&    0.2985\\
 
 \newpage
 
-# 2a)
+# 2)
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/gator1.pdf}
+\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three food choices (invertebrate, other, fish).}
+\label{fig:gator1}
+\endmyfig
+\beginmyfig
+\includegraphics[height=0.5\textwidth]{../img/gator2.pdf}
+\caption{$\hat\pi_j(x)$ for $j=1,2,3$ which corresponds to the three food (invertebrate, other, fish).}
+\label{fig:gator2}
+\endmyfig
 
+\newpage
+
+# 3a)
+
+\begin{align*}
+f(y | \mu,\phi) &= (2\pi\phi y^3)^{-1/2} \exp\bc{-\frac{(y-\mu)^2}{2\phi\mu^2 y}} \\
+&= \exp\bc{ -\frac{1}{2} \log(2\pi\phi y^3) + \frac{-y^2 + 2\mu y - \mu^2}{2\phi\mu^2 y}} \\
+&= \exp\bc{ \frac{y(-1/2\mu^2) - (-1/\mu)}{\phi} + \bk{-\frac{1}{2}\p{\frac{1}{\phi y} + \log(2\pi\phi y^3)}}} \\
+&= \exp\bc{ \frac{y\theta - b(\theta)}{\phi} + c(y,\phi)}
+\end{align*}
+Therefore, the inverse gaussian distribution is a member of the EDF family, with 
+
+- $\phi = \phi$
+- $\theta = -1/2\mu^2$
+- $b(\theta) = -\sqrt{-2\theta}$
+- $c(y,\phi) = -\frac{1}{2}\p{\frac{1}{\phi y} + \log(2\pi\phi y^3)}$
+
+Consequently,
+
+\begin{align*}
+\E\bk{y|\mu,\phi} &= b'(\theta) \\
+&= -\frac{1}{2}(-2\theta)^{-1/2} (-2) \\
+&= (-2\theta)^{-1/2}\\
+&= \mu \\
+\text{Var}\bk{y|\mu,\phi} &= \phi~b''(\theta) \\
+&= -\frac{\phi}{2}(-2\theta)^{-3/2}(-2) \\
+&= \phi(-2\theta)^{-3/2} \\
+&= \phi(\mu^{-1/2})^{-3/2} \\
+&= \phi \mu^3
+\end{align*}
+
+\newpage
+
+# 3b)
+
+The scaled deviance is
+\begin{align*}
+D^* &= -2\log(\lambda) \\
+&= \frac{2}{\phi} \suml w_i\bc{y_i(\tilde\theta_i - \hat\theta_i) - b(\tilde\theta_i) + b(\hat\theta_i)} \\
+&= \frac{2}{\phi} \suml \bc{y_i\bk{\p{\frac{-1}{2\tilde\mu_i^2}}-\p{\frac{-1}{2\hat\mu_i^2}}} - \p{\frac{-1}{\tilde\mu_i}} + \p{\frac{-1}{\hat\mu_i}}} \\
+&= \frac{2}{\phi} \suml \bc{y_i\bk{\p{\frac{-1}{2y_i^2}}-\p{\frac{-1}{2\gii^2}}} - \p{\frac{-1}{y_i}} + \p{\frac{-1}{\gii}}} \\
+&= \frac{2}{\phi} \suml \bc{\frac{-1}{2y_i}+\frac{y_i}{2\gii^2} +\frac{1}{y_i} -\frac{1}{\gii}} \\
+&= \frac{2}{\phi} \suml \bc{\frac{1}{2y_i}+\frac{y_i}{2\gii^2} -\frac{1}{\gii}} \\
+&= \frac{2}{\phi} \suml \bc{\frac{\gii^2 + y_i^2 - 2y_i\gii}{2y_i\gii^2}} \\
+&= \frac{2}{\phi} \suml \bc{\frac{\bk{y_i-\gii}^2}{2y_i\gii^2}} \\
+&= \frac{1}{\phi} \suml \frac{\bk{y_i-\gii}^2}{y_i~\gii^2} \\
+\end{align*}
 
 [//]: # (Footnotes:)
 
