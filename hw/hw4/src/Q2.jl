@@ -16,33 +16,33 @@ const J = length(unique(choice))
 const Y = [ choice[i] == j ? 1:0 for i in 1:N, j in 1:J]
 
 
-@time bc1 = BCLogit.fit(Y, [ones(N) gator[:length]], [20.,20.], printFreq=100, B=2000, burn=5000)
-b11 = hcat(map(b -> b[1], bc1)...)'
-b21 = hcat(map(b -> b[2], bc1)...)'
+@time bc1 = BCLogit.fit(Y, [ones(N) gator[:length]], [30.,30.], printFreq=100, B=2000, burn=5000)
+b11 = hcat(map(b -> b[:,1], bc1)...)'
+b21 = hcat(map(b -> b[:,2], bc1)...)'
 acc11 = size(unique(b11,1),1) / size(b11,1)
 acc21 = size(unique(b21,1),1) / size(b21,1)
 
 R"plotPosts($b11,cname=c('intercept','length'))";
 R"plotPosts($b21,cname=c('intercept','length'))";
 
-R"plot(gator$length,gator$choice,col=ifelse(gator$sex=='M','blue','red'),pch=20,cex=2,fg='grey')"
+R"plot(gator$length,gator$choice,col=ifelse(gator$sex=='M','blue','red'),pch=20,cex=2,fg='grey')";
 
 R"pdf('../img/gator1.pdf')"
 R"""
 xx <- seq(min(gator$length), max(gator$length), len=100)
 x0 <- cbind(1,xx)
 plot2(x0,list($b11,$b21))
-"""
+""";
 R"dev.off()"
 
 @time bc2 = BCLogit.fit(Y, [ones(N) sex gator[:length]], [20.,20.], printFreq=100, B=2000, burn=5000)
-b12 = hcat(map(b -> b[1], bc2)...)'
-b22 = hcat(map(b -> b[2], bc2)...)'
+b12 = hcat(map(b -> b[:,1], bc2)...)'
+b22 = hcat(map(b -> b[:,2], bc2)...)'
 acc12 = size(unique(b12,1),1) / size(b12,1)
 acc22 = size(unique(b22,1),1) / size(b22,1)
 
-R"plotPosts($b12,cname=c('intercept','sex (M=0)','length'))"
-R"plotPosts($b22,cname=c('intercept','sex (M=0)','length'))"
+R"plotPosts($b12,cname=c('intercept','sex (M=0)','length'))";
+R"plotPosts($b22,cname=c('intercept','sex (M=0)','length'))";
 
 R"pdf('../img/gator2.pdf',w=13,h=7)"
 R"""
@@ -54,5 +54,3 @@ plot2(x0_F,list($b12,$b22),main='Female')
 par(mfrow=c(1,1))
 """
 R"dev.off()"
-
-
