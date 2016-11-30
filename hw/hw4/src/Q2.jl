@@ -1,4 +1,5 @@
 using RCall, BayesLM
+srand(274)
 
 R"""
 source('loadRcommon.R')
