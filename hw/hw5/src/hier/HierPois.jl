@@ -13,10 +13,20 @@ immutable State
   λ::Float64
 end
 
-rig(a::Float64, b::Float64) = 1 / rand(Gamma(a,1/b))
+rig(a::Float64, b::Float64) = rand(Gamma(a,1/b))
 
 
-# Assumes flat prior for β
+"""
+  hierarchical poisson model fitter
+
+  fit(y::Vector{Float64}, X::Matrix{Float64}, csβ::Float64,
+      logpriorλ, csλ::Float64,
+      B::Int, burn::Int; printEvery::Int=0)
+
+  return (β,μ,λ,accβ,accλ)
+
+  Assumes flat prior for β
+"""
 function fit(y::Vector{Float64}, X::Matrix{Float64}, csβ::Float64,
              logpriorλ, csλ::Float64,
              B::Int, burn::Int; printEvery::Int=0)
@@ -50,7 +60,19 @@ function fit(y::Vector{Float64}, X::Matrix{Float64}, csβ::Float64,
     return State(newβ, newμ, newλ)
   end
 
-  return MCMC.gibbs(init, update, B, burn, printFreq=printEvery)
+  const post_params = MCMC.gibbs(init, update, B, burn, printFreq=printEvery)
+  const β = hcat(map(m -> m.β, post_params)...)'
+  const μ = hcat(map(m -> m.μ, post_params)...)'
+  const λ = map(m -> m.λ, post_params)
+
+  const accβ = size(unique(β,1),1) / size(β,1)
+  const accλ = length(unique(λ)) / length(λ)
+
+  return (β,μ,λ,accβ,accλ)
+end
+
+function predict(X0::Matrix{Float64},β::Matrix{Float64}, inv_link)
+  inv_link.(X0 * β)
 end
 
 end # module hierPois

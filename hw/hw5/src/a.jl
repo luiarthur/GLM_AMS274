@@ -19,16 +19,22 @@ end
 s1 = summary(mod1)
 β = hcat(map(m -> m.β, mod1.post_params)...)'
 
+R"pdf('../img/betaA.pdf')"
 R"plotPosts($β, cnames=c('intercept','length'))";
+R"dev.off()"
 
 x0 = linspace(minimum(X[:,2]),maximum(X[:,2]),100)
 X0 = [ones(x0) x0]
 pred = BayesLM.predict(X0,β',exp)
+R"pdf('../img/predA.pdf')"
 R"plot(fabric$length, fabric$faults,col='grey30',bty='n',fg='grey',pch=20,ylab='Faults',xlab='Length',main='Posterior Predictive Response Mean',col.main='grey30',xlim=range($x0))"
 R"lines($x0,apply($pred,1,mean),lwd=2,col='blue')"
 R"color.btwn($x0, apply($pred,1,quantile,.025), apply($pred,1,quantile,.975),from=min($x0),to=max($x0),col=rgb(0,0,1,.3))"
+R"dev.off()"
 
 pred_local = BayesLM.predict(X,β',exp)
+R"pdf('../img/residA.pdf')"
 R"plot(apply($y-$pred_local,1,mean),ylim=c(-15,15),col='red',pch=20,bty='n',fg='grey',cex=2,main='Posterior Predictive Residuals',ylab='Residuals',col.main='grey30')"
 R"abline(h=0,col='grey30')"
 R"add.errbar(t(apply($y-$pred_local,1,quantile,c(.025,.975))),col='red',lwd=2)"
+R"dev.off()"
