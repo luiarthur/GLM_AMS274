@@ -105,7 +105,9 @@ and below zero.
 Under the Bayesian Poisson Hierarchical GLM, it can be shown that
 $Y_i | \bm\beta, \lambda$ follows a negative binomial distribution:
 
-First note that FIXME
+FIXME
+First the p.m.f. for $Y_i | \bm\beta, \lambda$ is 
+
 
 \beginmyfig
 \includegraphics[height=0.5\textwidth]{../img/lambda.pdf}
