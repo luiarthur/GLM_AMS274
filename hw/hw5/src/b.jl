@@ -47,4 +47,11 @@ R"lines($x0,apply($pred,1,mean),lwd=2,col='blue')"
 R"color.btwn($x0, apply($pred,1,quantile,.025), apply($pred,1,quantile,.975),from=min($x0),to=max($x0),col=rgb(0,0,1,.3))"
 R"dev.off()";
 
+pred_local = HierPois.predict(X,β',exp)
+mean((mean(y .- pred_local,2)).^2)
 
+function loss(truth::Vector{Float64}, postpred::Matrix{Float64}, K::Int=10000000)
+  return sum(var(postpred,2) + K/(K+1) * (truth - mean(postpred,2)).^2)
+end
+
+println("Loss Hier: ", loss(y, pred_local, 1000))

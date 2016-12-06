@@ -38,3 +38,8 @@ R"plot(apply($y-$pred_local,1,mean),ylim=c(-15,15),col='red',pch=20,bty='n',fg='
 R"abline(h=0,col='grey30')"
 R"add.errbar(t(apply($y-$pred_local,1,quantile,c(.025,.975))),col='red',lwd=2)"
 R"dev.off()"
+
+function loss(truth::Vector{Float64}, postpred::Matrix{Float64}, K::Int=10000000)
+  return sum(var(postpred,2) + K/(K+1) * (truth - mean(postpred,2)).^2)
+end
+println("Loss Poi GLM: ", loss(y, pred_local, 1000))
