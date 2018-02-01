@@ -21,8 +21,8 @@ function ll2(y::Vector{Float64},Xb::Vector{Float64},θ::Hyper)
 end
 
 
-@time mod1 = glm(y1, X, Σᵦ*.1, ll1, B=2000,burn=10000);
-@time mod2 = glm(y2, X, Σᵦ*.5, ll2, B=2000,burn=10000);
+@time mod1 = glm(Array(y1), X, Σᵦ*.1, ll1, B=2000,burn=10000);
+@time mod2 = glm(Array(y2), X, Σᵦ*.5, ll2, B=2000,burn=10000);
 s1 = summary(mod1)
 s2 = summary(mod2)
 
